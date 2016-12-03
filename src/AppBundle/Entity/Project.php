@@ -64,9 +64,9 @@ class Project
     private $isClosed;
 
     /**
-     * @var array
+     * @var string
      *
-     * @ORM\Column(name="users", type="array")
+     * @ORM\Column(name="users", type="text", nullable=true)
      */
     private $users;
 
@@ -179,7 +179,7 @@ class Project
      * @param \DateTime $startAt
      * @return Project
      */
-    public function setStartAt(\DateTime $startAt)
+    public function setStartAt(\DateTime $startAt=null)
     {
         $this->startAt = $startAt;
 
@@ -222,7 +222,7 @@ class Project
     /**
      * Set users
      *
-     * @param array $users
+     * @param string $users
      * @return Project
      */
     public function setUsers($users)
@@ -235,7 +235,7 @@ class Project
     /**
      * Get users
      *
-     * @return array 
+     * @return string
      */
     public function getUsers()
     {

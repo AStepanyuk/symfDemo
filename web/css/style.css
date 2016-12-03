@@ -2,10 +2,10 @@ body {
     font-family: sans-serif;
     font-size: 16px;
 }
-.form-errors{
-    background: #ffddd8;
+.message{
+    background: #79ff74;
     padding: 10px;
     margin: 10px;
     border: 1px solid;
-    color: #ff394d;
+    color: #6c6159;
 }

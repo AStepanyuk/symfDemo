@@ -3,11 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Project;
+use AppBundle\Form\ProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\Length as LengthConstraint;
+
 
 class ProjectController extends Controller
 {
@@ -45,9 +47,10 @@ class ProjectController extends Controller
     {
 
         $project = new Project();
+        $project->setStartAt(new \DateTime());
+        dump($project);
 
-        $form = $this->createProjectForm($project);
-
+        $form = $this->createForm(ProjectType::class, $project);
 
         $form->handleRequest($request);
 
@@ -58,6 +61,11 @@ class ProjectController extends Controller
             $entityManager->persist($project);
 
             $entityManager->flush();
+
+            $this->addFlash(
+                'project-list',
+                'Проект был создан'
+            );
 
             return $this->redirectToRoute("project-list");
         } else {
@@ -74,7 +82,7 @@ class ProjectController extends Controller
      */
     public function editProjectAction(Project $project, Request $request)
     {
-        $form = $this->createProjectForm($project);
+        $form = $this->createForm(ProjectType::class, $project);
 
         $form->handleRequest($request);
 
@@ -83,6 +91,12 @@ class ProjectController extends Controller
             $entityManager->persist($project);
 
             $entityManager->flush();
+
+
+            $this->addFlash(
+                'project-list',
+                'Отредактировано'
+            );
 
             return $this->redirectToRoute("project-list");
         } else {
@@ -94,35 +108,38 @@ class ProjectController extends Controller
     }
 
     /**
-     * @param Project $project
-     * @return \Symfony\Component\Form\Form
+     * @Route("/project/delete_{project}", name="project-delete")
      */
-    private function createProjectForm(Project $project)
+    public function deleteProjectAction(Project $project, Request $request)
     {
-        $form = $this->createForm("form", $project);
-        $form->add("name", "text", [
-            "required" => false,
-            "constraints" => [
-                new LengthConstraint([
-                    "min" => 3,
-                    "max" => 50,
-                ])
-            ],])
-            ->add("description", "textarea", [
-                "required" => false,])
-            ->add("aboutText", "textarea", [
-                "required" => false,])
-            ->add("priority", "integer", [
-                "required" => false,])
-            ->add("startAt", "datetime", [
-                "required" => false,])
-            ->add("isClosed", "checkbox", [
-                "required" => false,
-                "label" => "Проект закрыт?"
-            ])
-            ->add("submit", "submit");
+        $form = $this->createForm(FormType::class);
+        $form->add('delete', 'submit');
+        $form->add('cancel', 'submit');
 
-        return $form;
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('delete')->isClicked()) {
+                $entityManager = $this->get("doctrine.orm.entity_manager");
+                $entityManager->remove($project);
+
+                $entityManager->flush();
+
+                $this->addFlash(
+                    'project-list',
+                    'Проект был удален'
+                );
+            };
+
+
+            return $this->redirectToRoute("project-list");
+        } else {
+            return $this->render('AppBundle:Project:delete.html.twig', [
+                "form" => $form->createView()
+            ]);
+        }
 
     }
+
+
 }

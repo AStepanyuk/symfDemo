@@ -4,6 +4,15 @@
 
 {% block body %}
 <h1>Welcome to the Project:list page</h1>
+    {% if app.session.flashBag.has('project-list') %}
+    <div class="message">
+        {% for flash_message in app.session.flashBag.get('project-list') %}
+            <div class="flash-notice">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <a href="{{ path('project-new') }}">Создать проект</a>
     <hr/>
 
@@ -18,6 +27,7 @@
             Приоритет: {{ project.priority }}
         {% endif %}
         <a href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
+        <a href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
     {% endfor %}
 
 {% endblock %}
