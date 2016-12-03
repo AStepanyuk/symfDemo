@@ -1,0 +1,23 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Project:list{% endblock %}
+
+{% block body %}
+<h1>Welcome to the Project:list page</h1>
+    <a href="{{ path('new-project') }}">Создать проект</a>
+    <hr/>
+
+    {% for project in allProjects %}
+        <h2> {{ project.name }}</h2>
+        <p> {{ project.description }}</p>
+        <p>Начат <i> {{ project.startAt.format("Y-m-d") }}</i></p>
+
+        {%  if project.isClosed %}
+            Проект зактыт
+        {% else %}
+            Приоритет: {{ project.priority }}
+        {% endif %}
+
+    {% endfor %}
+
+{% endblock %}
