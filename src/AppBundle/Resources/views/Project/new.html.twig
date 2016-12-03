@@ -4,47 +4,9 @@
 
 {% block body %}
     <h1>Welcome to the Project:new-project page</h1>
-    {% if errors | length %}
-        <div class="form-errors">
-            <div class="caption">Ошибки формы</div>
-            <ul>
-                {% for error in errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-    <form>
-        <div class="form-field">
-            <label for="name">Enter project name:</label>
-            <input value="{{ vars.name }}"  name="name" id="name"/>
-        </div>
-        <div class="form-field">
-            <label for="description">Enter project description:</label>
-            <textarea  name="description" id="description" cols="30" rows="10">{{ vars.description }}</textarea>
-        </div>
-        <div class="form-field">
-            <label for="aboutText">Enter project aboutText:</label>
-            <textarea type='text'  name="aboutText" id="aboutText" cols="30" rows="10">{{ vars.aboutText }}</textarea>
-        </div>
-        <div class="form-field">
-            <label for="priority">Enter project priority:</label>
-            <input value="{{ vars.priority }}"type='number'  name="priority" id="priority"/> <br/>
-        </div>
-        <div class="form-field">
-            <label for="startAt">Enter project startAt:</label>
-            <input  name="startAt" id="startAt" value="{{ vars.startAt }}"/>
-        </div>
-        <div class="form-field">
-            <label for="isClosed">Enter project isClosed:</label>
-            <input value="{{ vars.isClosed }}"type='number'  name="isClosed" id="isClosed"/>
-        </div>
-        <div class="form-field">
-            <label for="users">Enter project users:</label>
-            <textarea  name="users" id="users" cols="30" rows="10"></textarea>
-        </div>
 
-        <input  name="submit" id="submit" type='submit'/>
-    </form>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
 
-{% endblock %}
+ {% endblock %}

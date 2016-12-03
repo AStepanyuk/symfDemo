@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Length as LengthConstraint;
 
 class ProjectController extends Controller
 {
@@ -39,65 +41,88 @@ class ProjectController extends Controller
     /**
      * @Route("/project/new", name="project-new")
      */
-    public function newSubmitAction(Request $request)
+    public function newProjectAction(Request $request)
     {
-        $fields = ["name", "description", "aboutText", "priority", "startAt", "isClosed", "submit"];
-        $vars = [];
-        $errors = [];
+
+        $project = new Project();
+
+        $form = $this->createProjectForm($project);
 
 
-        foreach ($fields as $field) {
-            $vars[$field] = $request->get($field);
-        }
-//        $errors[] = "У вас ошибка в ДНК";
+        $form->handleRequest($request);
 
-
-        if (!strtotime($vars["startAt"])) {
-            $errors[] = "Некорректная дата";
-        }
-
-        if (!$vars["name"]) {
-            $errors[] = "Поля ИМЯ обязательно!";
-        } elseif (mb_strlen($vars["name"]) < 3) {
-            $errors[] = "Слишком короткое имя (min 3)";
-        } elseif (mb_strlen($vars["name"]) > 50) {
-            $errors[] = "Слишком длинное имя (max 50)";
-        }
-
-        if ($vars["submit"] && !count($errors)) {
-            $project = new Project();
-
-            $project->setName($vars["name"])
-                ->setDescription($vars["description"])
-                ->setAboutText($vars["aboutText"])
-                ->setPriority($vars["priority"])
-                ->setStartAt(new \DateTime($vars["startAt"]))
-                ->setIsClosed($vars["isClosed"])
-                ->setUsers([]);
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->get("doctrine.orm.entity_manager");
 
             $entityManager->persist($project);
+
             $entityManager->flush();
 
             return $this->redirectToRoute("project-list");
-        }
-        if (!$vars["submit"]){
-            $errors = [];
-            $vars["startAt"] = date("Y-m-d H:i:s");
-
-
+        } else {
+            return $this->render('AppBundle:Project:new.html.twig', [
+                "form" => $form->createView()
+            ]);
         }
 
-        $currdate = new \DateTime();
-
- 
-        return $this->render('AppBundle:Project:new.html.twig', [
-            "errors" => $errors,
-            "vars" => $vars,
-        ]);
+    }
 
 
-//        dump($project);
+    /**
+     * @Route("/project/edit_{project}", name="project-edit")
+     */
+    public function editProjectAction(Project $project, Request $request)
+    {
+        $form = $this->createProjectForm($project);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->get("doctrine.orm.entity_manager");
+            $entityManager->persist($project);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute("project-list");
+        } else {
+            return $this->render('AppBundle:Project:new.html.twig', [
+                "form" => $form->createView()
+            ]);
+        }
+
+    }
+
+    /**
+     * @param Project $project
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createProjectForm(Project $project)
+    {
+        $form = $this->createForm("form", $project);
+        $form->add("name", "text", [
+            "required" => false,
+            "constraints" => [
+                new LengthConstraint([
+                    "min" => 3,
+                    "max" => 50,
+                ])
+            ],])
+            ->add("description", "textarea", [
+                "required" => false,])
+            ->add("aboutText", "textarea", [
+                "required" => false,])
+            ->add("priority", "integer", [
+                "required" => false,])
+            ->add("startAt", "datetime", [
+                "required" => false,])
+            ->add("isClosed", "checkbox", [
+                "required" => false,
+                "label" => "Проект закрыт?"
+            ])
+            ->add("submit", "submit");
+
+        return $form;
+
     }
 }

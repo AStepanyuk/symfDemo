@@ -4,7 +4,7 @@
 
 {% block body %}
 <h1>Welcome to the Project:list page</h1>
-    <a href="{{ path('new-project') }}">Создать проект</a>
+    <a href="{{ path('project-new') }}">Создать проект</a>
     <hr/>
 
     {% for project in allProjects %}
@@ -17,7 +17,7 @@
         {% else %}
             Приоритет: {{ project.priority }}
         {% endif %}
-
+        <a href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
     {% endfor %}
 
 {% endblock %}
