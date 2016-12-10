@@ -23,6 +23,32 @@
             <a href="{{ path('project-add-like', {'project': project.id }) }}">Like {{ project.likesCount }}</a>
         {% endif %}
     </p>
+    <p>
+        Имеется {{ likes | length }} лайков
+    </p>
+
+    {% if project.likesCount %}
+    <table class="table table-bordered table-hover table-condensed">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>ip</th>
+            <th>дата лайка</th>
+        </tr>
+        </thead>
+        <tbody>
+        {%  for like in likes  %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ like.ip }}</td>
+                <td>{{ like.addAt.format("Y-m-d H:i") }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>Лайков пока нет</p>
+    {%  endif %}
 
     <a href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
     <a href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>

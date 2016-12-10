@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\LikeItem;
 use AppBundle\Entity\Project;
 use AppBundle\Form\ProjectType;
+use AppBundle\Repository\LikeItemRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DomCrawler\Form;
@@ -37,8 +39,21 @@ class ProjectController extends Controller
      */
     public function viewAction(Project $project)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $likesRepo = $em->getRepository("AppBundle:LikeItem");
+
+        /** @var LikeItemRepository $likesRepo */
+        $likes = $likesRepo->getLikesForProject($project);
+        if ($project->getLikesCount() !== count($likes)){
+            $project->setLikesCount(count($likes));
+            $em->persist($project);
+            $em->flush();
+
+        }
         return $this->render('AppBundle:Project:view.html.twig', [
             "project" => $project,
+            "likes" => $likes,
         ]);
 
     }
@@ -162,13 +177,24 @@ class ProjectController extends Controller
      */
     public function addLikeAction(Project $project, Request $request)
     {
-        $from = $request->get("from");
+        $like = new LikeItem();
+        $like
+            ->setAddAt(new \DateTime())
+            ->setObjectId($project->getId())
+            ->setObjectType("project")
+            ->setIp($request->getClientIp());
+
 
         $curLikes = $project->getLikesCount();
         $project->setLikesCount($curLikes + 1);
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($project);
+        $em->persist($like);
         $em->flush();
+
+        $from = $request->get("from");
+
         if ($from == "list") {
             return $this->redirectToRoute("project-list");
         } else {
