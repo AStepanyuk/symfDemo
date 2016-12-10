@@ -39,8 +39,12 @@ class ProjectType extends AbstractType
                 "required" => false,])
             ->add("isClosed", "checkbox", [
                 "required" => false,
-                "label" => "Проект закрыт?"
-            ])
-            ->add("submit", "submit");
+                "label" => "Проект закрыт?"])
+            ->add("picture", "text", [
+                "required" => false,])
+//            ->add("like", "integer", [
+//                "required" => false,])
+            ->add("submit", "submit", ['attr' => ['class' => 'btn-primary']])
+            ->add("cancel", "submit");
     }
 }

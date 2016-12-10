@@ -4,9 +4,15 @@
 
 {% block body %}
     <h1>Welcome to the Project:new-project page</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-
- {% endblock %}
+    {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+    <div class="row">
+        <div class="col-md-6">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+        </div>
+        <div class="col-md-6">
+            блок для рекламы
+        </div>
+    </div>
+{% endblock %}

@@ -70,6 +70,56 @@ class Project
      */
     private $users;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(name="picture", type="string", nullable=true)
+     */
+    private $picture;
+
+    /**
+     * @var
+     *
+     * @ORM\Column(name="likesCount", type="integer", nullable=true)
+     */
+    private $likesCount;
+
+    /**
+     * @return mixed
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param mixed $picture
+     * @return Project
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikesCount()
+    {
+        return $this->likesCount;
+    }
+
+    /**
+     * @param mixed $likesCount
+     * @return Project
+     */
+    public function setLikesCount($likesCount)
+    {
+        $this->likesCount = $likesCount;
+        return $this;
+    }
+
 
     /**
      * Get id
@@ -241,4 +291,6 @@ class Project
     {
         return $this->users;
     }
+
+
 }

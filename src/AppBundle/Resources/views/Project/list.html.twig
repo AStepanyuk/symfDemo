@@ -3,31 +3,41 @@
 {% block title %}AppBundle:Project:list{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Project:list page</h1>
+    <h1>Welcome to the Project:list page</h1>
     {% if app.session.flashBag.has('project-list') %}
-    <div class="message">
-        {% for flash_message in app.session.flashBag.get('project-list') %}
-            <div class="flash-notice">
-                {{ flash_message }}
-            </div>
-        {% endfor %}
-    </div>
+        <div class="message">
+            {% for flash_message in app.session.flashBag.get('project-list') %}
+                <div class="flash-notice">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+        </div>
     {% endif %}
-    <a href="{{ path('project-new') }}">Создать проект</a>
+    <a class="btn btn-default" href="{{ path('project-new') }}">Создать проект</a>
     <hr/>
 
     {% for project in allProjects %}
         <h2> {{ project.name }}</h2>
         <p> {{ project.description }}</p>
         <p>Начат <i> {{ project.startAt.format("Y-m-d") }}</i></p>
-
-        {%  if project.isClosed %}
-            Проект зактыт
-        {% else %}
-            Приоритет: {{ project.priority }}
-        {% endif %}
-        <a href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
-        <a href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
+        <p>
+            {% if project.isClosed %}
+                Проект зактыт
+            {% else %}
+                Приоритет: {{ project.priority }}
+            {% endif %}
+        </p>
+        <p>
+            {% if project.likesCount == null %}
+                <a href="{{ path('project-add-like', {'project': project.id,'from': "list" }) }}">Like?</a>
+            {% else %}
+                <a href="{{ path('project-add-like', {'project': project.id,'from': "list" } ) }}">Like {{ project.likesCount }}</a>
+            {% endif %}
+        </p>
+        <hr/>
+        <a class="btn btn-xs btn-info" href="{{ path('project-view', {project:project.id}) }}">Просмотр</a>
+        <a class="btn btn-xs btn-primary" href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
+        <a class="btn btn-xs btn-danger" href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
     {% endfor %}
 
 {% endblock %}

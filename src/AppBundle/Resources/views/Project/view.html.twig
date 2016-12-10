@@ -3,5 +3,28 @@
 {% block title %}AppBundle:Project:view{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Project:view page</h1>
+    <h1>Welcome to the Project:view page</h1>
+
+    <h2> {{ project.name }}</h2>
+    <p> {{ project.description }}</p>
+    <p> {{ project.aboutText }}</p>
+    <p>Начат <i> {{ project.startAt.format("Y-m-d") }}</i></p>
+    <p>
+        {% if project.isClosed %}
+            Проект зактыт
+        {% else %}
+            Приоритет: {{ project.priority }}
+        {% endif %}
+    </p>
+    <p>
+        {% if project.likesCount == null %}
+            <a href="{{ path('project-add-like', {'project': project.id }) }}">Like?</a>
+        {% else %}
+            <a href="{{ path('project-add-like', {'project': project.id }) }}">Like {{ project.likesCount }}</a>
+        {% endif %}
+    </p>
+
+    <a href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
+    <a href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
+    <a href="{{ path('project-list') }}">К списку</a>
 {% endblock %}
