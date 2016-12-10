@@ -6,6 +6,7 @@ use AppBundle\Entity\LikeItem;
 use AppBundle\Entity\Project;
 use AppBundle\Form\ProjectType;
 use AppBundle\Repository\LikeItemRepository;
+use AppBundle\Services\Auth;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DomCrawler\Form;
@@ -27,7 +28,18 @@ class ProjectController extends Controller
         $repo = $entityManager->getRepository("AppBundle:Project");
         $allProjects = $repo->findAll();
 
-        dump($allProjects);
+
+        $sessiion = $this->get('session');
+        $auth= new Auth();
+        $auth->setSession($sessiion);
+        $auth->setEntityManager($entityManager);
+
+        $user=$auth->getUser();
+
+
+
+        dump($user);
+
 
         return $this->render('AppBundle:Project:list.html.twig', [
             "allProjects" => $allProjects,
