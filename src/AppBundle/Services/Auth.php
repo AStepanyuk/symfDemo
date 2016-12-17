@@ -19,40 +19,54 @@ class Auth
      * @var Session
      */
     protected $session;
+
     /**
      * @var EntityManager
      */
     protected $em;
 
-    public function logigAsAction(User $user)
-    {
-        $this->session->set("current_user_id", $user->getId());
-    }
+    protected $authKey = "current_user_id";
 
-    public function setSession(Session $session)
+    /**
+     * @var User/null
+     */
+    protected $currentUser = false;
+
+    public function __construct(EntityManager $entityManager, Session $session)
     {
         $this->session = $session;
+        $this->em = $entityManager;
+    }
+
+    public function loginAs(User $user)
+    {
+        $this->session->set($this->authKey, $user->getId());
     }
 
     public function getUser()
     {
-        $userId = $this->session->get('current_user_id');
+        if ($this->currentUser === false) {
 
-        $user = null;
-        if ($userId) {
-            $user = $this->em->getRepository('AppBundle:User')->find($userId);
+            dump("ищем пользователя в сессии и в базе");
+
+            $userId = $this->session->get($this->authKey);
+
+            $user = null;
+            if ($userId) {
+
+
+                $user = $this->em->getRepository('AppBundle:User')->find($userId);
+            }
+            $this->currentUser = $user;
         }
 
-        return $user;
+        return $this->currentUser;
 
     }
 
-    /**
-     * @param EntityManager $em
-     */
-    public function setEntityManager($em)
+    public function logout()
     {
-        $this->em = $em;
+        $this->session->set($this->authKey, null);
     }
 
 

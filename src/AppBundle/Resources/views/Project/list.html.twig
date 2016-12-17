@@ -1,8 +1,11 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Project:list{% endblock %}
+{% block title %}Список проектов{% endblock %}
 
 {% block body %}
+
+    {{ auth.user.name}}  / {{ auth.user.id }}
+
     <h1>Welcome to the Project:list page</h1>
     {% if app.session.flashBag.has('project-list') %}
         <div class="message">

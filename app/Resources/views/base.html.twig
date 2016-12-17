@@ -11,6 +11,18 @@
     </head>
     <body>
     <div class="container">
+
+        <div>
+            {% if auth.user %}
+                current user: <b>{{ auth.user.name }}</b>
+                <a href="{{ path('auth_logout') }}">Выйти</a>
+
+            {% else %}
+                <a href="{{ path('user_index') }}">Войти</a>
+            {% endif %}
+            <hr/>
+        </div>
+
         {% block body %}{% endblock %}
     </div>
         {% block javascripts %}{% endblock %}

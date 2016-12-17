@@ -6,7 +6,8 @@ use AppBundle\Entity\User;
 use AppBundle\Services\Auth;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -131,24 +132,9 @@ class UserController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
-    /**
-     * @Route("/{id}/LoginAs", name="user_make_auth")
-     */
-    public function logigAsAction(User $user)
-    {
-        $session = $this->get("session");
-
-        $auth=new Auth();
-        $auth->setSession($session);
-        $auth->loginAs($user);
 
 
-
-//        $session ->set("current_user_id", $user->getId());
-
-    }
 }

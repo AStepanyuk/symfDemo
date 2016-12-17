@@ -29,13 +29,9 @@ class ProjectController extends Controller
         $allProjects = $repo->findAll();
 
 
-        $sessiion = $this->get('session');
-        $auth= new Auth();
-        $auth->setSession($sessiion);
-        $auth->setEntityManager($entityManager);
+        $auth = $this->get('app.services.auth');
 
-        $user=$auth->getUser();
-
+        $user = $auth->getUser();
 
 
         dump($user);
@@ -43,6 +39,7 @@ class ProjectController extends Controller
 
         return $this->render('AppBundle:Project:list.html.twig', [
             "allProjects" => $allProjects,
+            "authUser" => $user,
         ]);
     }
 
@@ -57,7 +54,7 @@ class ProjectController extends Controller
 
         /** @var LikeItemRepository $likesRepo */
         $likes = $likesRepo->getLikesForProject($project);
-        if ($project->getLikesCount() !== count($likes)){
+        if ($project->getLikesCount() !== count($likes)) {
             $project->setLikesCount(count($likes));
             $em->persist($project);
             $em->flush();

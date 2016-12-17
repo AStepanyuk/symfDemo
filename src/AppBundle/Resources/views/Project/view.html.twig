@@ -1,11 +1,13 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Project:view{% endblock %}
+{% block title %}{{ project.name }}{% endblock %}
 
 {% block body %}
     <h1>Welcome to the Project:view page</h1>
 
     <h2> {{ project.name }}</h2>
+     {#добавить проверку наличия#}
+    <img src="{{ project.picture }}" alt="">
     <p> {{ project.description }}</p>
     <p> {{ project.aboutText }}</p>
     <p>Начат <i> {{ project.startAt.format("Y-m-d") }}</i></p>
@@ -50,7 +52,7 @@
         <p>Лайков пока нет</p>
     {%  endif %}
 
-    <a href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
-    <a href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
-    <a href="{{ path('project-list') }}">К списку</a>
+    <a class="btn btn-xs btn-primary" href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
+    <a class="btn btn-xs btn-danger" href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
+    <a class="btn btn-xs btn-info" href="{{ path('project-list') }}">К списку</a>
 {% endblock %}
