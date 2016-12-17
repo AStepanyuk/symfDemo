@@ -20,7 +20,7 @@
     <hr/>
 
     {% for project in allProjects %}
-        <h2> {{ project.name }}</h2>
+        <h2> #{{ project.id }}.{{ project.name }}</h2>
         <p> {{ project.description }}</p>
         <p>Начат <i> {{ project.startAt.format("Y-m-d") }}</i></p>
         <p>
@@ -32,9 +32,9 @@
         </p>
         <p>
             {% if project.likesCount == null %}
-                <a href="{{ path('project-add-like', {'project': project.id,'from': "list" }) }}">Like?</a>
+                <a data-id="{{ project.id }}" class="btn-add-like" href="{{ path('project-add-like', {'project': project.id,'from': "list" }) }}">Like?</a>
             {% else %}
-                <a href="{{ path('project-add-like', {'project': project.id,'from': "list" } ) }}">Like {{ project.likesCount }}</a>
+                <a data-id="{{ project.id }}" class="btn-add-like" href="{{ path('project-add-like', {'project': project.id,'from': "list" } ) }}">Like {{ project.likesCount }}</a>
             {% endif %}
         </p>
         <hr/>

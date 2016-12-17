@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\DomCrawler\Form;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ProjectController
@@ -186,11 +187,16 @@ class ProjectController extends Controller
      */
     public function addLikeAction(Project $project, Request $request)
     {
+        $user=$this->get('app.services.auth')->getUser();
+
+        if ($user){
+
         $like = new LikeItem();
         $like
             ->setAddAt(new \DateTime())
             ->setObjectId($project->getId())
             ->setObjectType("project")
+            ->setUser($user)
             ->setIp($request->getClientIp());
 
 
@@ -201,6 +207,11 @@ class ProjectController extends Controller
         $em->persist($project);
         $em->persist($like);
         $em->flush();
+        }
+
+        if ($request->isXmlHttpRequest()){
+            return new Response("Likes " . $project->getLikesCount());
+        }
 
         $from = $request->get("from");
 

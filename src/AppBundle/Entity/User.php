@@ -35,6 +35,11 @@ class User
      */
     private $password;
 
+    /**
+     * @ORM\OneToMany(targetEntity="LikeItem", mappedBy="user")
+     */
+    private $likes;
+
 
     /**
      * Get id

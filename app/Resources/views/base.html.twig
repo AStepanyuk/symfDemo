@@ -8,8 +8,13 @@
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+
     </head>
     <body>
+
+    <div id="testbtn">Тест</div>
+
     <div class="container">
 
         <div>
@@ -26,5 +31,8 @@
         {% block body %}{% endblock %}
     </div>
         {% block javascripts %}{% endblock %}
+
+    <script src="/js/main.js"></script>
+
     </body>
 </html>

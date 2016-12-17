@@ -49,6 +49,30 @@ class LikeItem
      */
     private $ip;
 
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="likes")
+     */
+    private $user;
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return LikeItem
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
 
     /**
      * Get id

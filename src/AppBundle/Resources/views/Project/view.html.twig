@@ -6,7 +6,7 @@
     <h1>Welcome to the Project:view page</h1>
 
     <h2> {{ project.name }}</h2>
-     {#добавить проверку наличия#}
+    {#добавить проверку наличия#}
     <img src="{{ project.picture }}" alt="">
     <p> {{ project.description }}</p>
     <p> {{ project.aboutText }}</p>
@@ -30,27 +30,36 @@
     </p>
 
     {% if project.likesCount %}
-    <table class="table table-bordered table-hover table-condensed">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>ip</th>
-            <th>дата лайка</th>
-        </tr>
-        </thead>
-        <tbody>
-        {%  for like in likes  %}
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
             <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ like.ip }}</td>
-                <td>{{ like.addAt.format("Y-m-d H:i") }}</td>
+                <th>#</th>
+                <th>ip</th>
+                <th>пользователь</th>
+                <th>дата лайка</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for like in likes %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ like.ip }}</td>
+                    <td>
+                        {% if like.user %}
+                            <a target="_blank"
+                               href="{{ path('user_show', {'id': like.user.id}) }}">{{ like.user.name }}</a>
+                        {% else %}
+                            ????
+                        {% endif %}
+                    </td>
+                    <td>{{ like.addAt.format("Y-m-d H:i") }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     {% else %}
         <p>Лайков пока нет</p>
-    {%  endif %}
+    {% endif %}
 
     <a class="btn btn-xs btn-primary" href="{{ path('project-edit', {project:project.id}) }}">Правка</a>
     <a class="btn btn-xs btn-danger" href="{{ path('project-delete', {project:project.id}) }}">Удалить</a>
