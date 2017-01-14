@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ProjectReward;
 use AppBundle\Entity\Reward;
+use AppBundle\Form\ProjectRewardType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Reward controller.
@@ -60,7 +63,7 @@ class RewardController extends Controller
     /**
      * Finds and displays a reward entity.
      *
-     * @Route("/{id}", name="reward_show")
+     * @Route("/{id}", name="reward_show", requirements={"id"="\d+"})
      * @Method("GET")
      */
     public function showAction(Reward $reward)
@@ -130,7 +133,49 @@ class RewardController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('reward_delete', array('id' => $reward->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
+    }
+
+    /**
+     * @Route("/award_project", name="award_project")
+     */
+    public function projectAwardAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $award = new ProjectReward();
+        $award->setAddAt(new \DateTime());
+
+        $projectId= $request->get('project');
+        if ($projectId) {
+            $project = $em->getRepository("AppBundle:Project")->find($projectId);
+            $award->setProject($project);
+        }
+
+        $rewardId= $request->get('reward');
+        if ($rewardId){
+            $reward = $em->getRepository("AppBundle:Reward")->find($rewardId);
+            $award->setReward($reward);
+        }
+
+
+
+
+
+        $form = $this->createForm(ProjectRewardType::class, $award);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($award);
+            $em->flush();
+
+            return $this->redirectToRoute("project-view", ["project"=> $award->getProject()->getId()]);
+
+        } else {
+
+            return $this->render('@App/reward/awardEdit.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
     }
 }

@@ -13,7 +13,6 @@
     </head>
     <body>
 
-    <div id="testbtn">Тест</div>
 
     <div class="container">
 
@@ -25,6 +24,13 @@
             {% else %}
                 <a href="{{ path('user_index') }}">Войти</a>
             {% endif %}
+
+|
+                <a href="{{ path('project-list') }}">Проекты</a>
+                <a href="{{ path('user_index') }}">Пользователи</a>
+                <a href="{{ path('reward_index') }}">Награды</a>
+
+
             <hr/>
         </div>
 
