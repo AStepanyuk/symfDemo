@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="rewards")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RewardsRepository")
  */
-class Rewards
+class Reward
 {
     /**
      * @var int
@@ -24,21 +24,21 @@ class Rewards
     /**
      * @var string
      *
-     * @ORM\Column(name="reward", type="string", length=255, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $reward;
+    private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="icon", type="string", length=255)
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     private $icon;
 
@@ -56,12 +56,12 @@ class Rewards
     /**
      * Set reward
      *
-     * @param string $reward
-     * @return Rewards
+     * @param string $name
+     * @return Reward
      */
-    public function setReward($reward)
+    public function setName($name)
     {
-        $this->reward = $reward;
+        $this->name = $name;
 
         return $this;
     }
@@ -71,16 +71,16 @@ class Rewards
      *
      * @return string 
      */
-    public function getReward()
+    public function getName()
     {
-        return $this->reward;
+        return $this->name;
     }
 
     /**
      * Set description
      *
      * @param string $description
-     * @return Rewards
+     * @return Reward
      */
     public function setDescription($description)
     {
@@ -103,7 +103,7 @@ class Rewards
      * Set icon
      *
      * @param string $icon
-     * @return Rewards
+     * @return Reward
      */
     public function setIcon($icon)
     {

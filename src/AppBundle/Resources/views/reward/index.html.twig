@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rewards list</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Icon</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reward in rewards %}
+            <tr>
+                <td><a href="{{ path('reward_show', { 'id': reward.id }) }}">{{ reward.id }}</a></td>
+                <td>{{ reward.name }}</td>
+                <td>{{ reward.description }}</td>
+                <td>{{ reward.icon }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('reward_show', { 'id': reward.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('reward_edit', { 'id': reward.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('reward_new') }}">Create a new reward</a>
+        </li>
+    </ul>
+{% endblock %}
