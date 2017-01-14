@@ -125,4 +125,44 @@ class Reward
     {
         return $this->icon;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->projectRewards = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add projectRewards
+     *
+     * @param \AppBundle\Entity\ProjectReward $projectRewards
+     * @return Reward
+     */
+    public function addProjectReward(\AppBundle\Entity\ProjectReward $projectRewards)
+    {
+        $this->projectRewards[] = $projectRewards;
+
+        return $this;
+    }
+
+    /**
+     * Remove projectRewards
+     *
+     * @param \AppBundle\Entity\ProjectReward $projectRewards
+     */
+    public function removeProjectReward(\AppBundle\Entity\ProjectReward $projectRewards)
+    {
+        $this->projectRewards->removeElement($projectRewards);
+    }
+
+    /**
+     * Get projectRewards
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjectRewards()
+    {
+        return $this->projectRewards;
+    }
 }

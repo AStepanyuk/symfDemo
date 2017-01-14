@@ -47,7 +47,7 @@ class Auth
     {
         if ($this->currentUser === false) {
 
-            dump("ищем пользователя в сессии и в базе");
+
 
             $userId = $this->session->get($this->authKey);
 

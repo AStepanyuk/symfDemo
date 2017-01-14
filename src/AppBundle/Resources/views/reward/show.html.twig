@@ -5,24 +5,33 @@
 
     <table>
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reward.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ reward.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ reward.description }}</td>
-            </tr>
-            <tr>
-                <th>Icon</th>
-                <td>{{ reward.icon }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ reward.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ reward.name }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ reward.description }}</td>
+        </tr>
+        <tr>
+            <th>Icon</th>
+            <td>{{ reward.icon }}</td>
+        </tr>
         </tbody>
     </table>
+
+
+    <ul>
+        {% for pr in reward.projectRewards %}
+            <li>
+                <b>{{ pr.project.name }}</b><br/>
+            </li>
+        {% endfor %}
+    </ul>
 
     <ul>
         <li>
@@ -33,7 +42,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>

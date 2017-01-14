@@ -103,4 +103,50 @@ class ProjectReward
     {
         return $this->description;
     }
+
+    /**
+     * Set project
+     *
+     * @param \AppBundle\Entity\Project $project
+     * @return ProjectReward
+     */
+    public function setProject(\AppBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \AppBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * Set reward
+     *
+     * @param \AppBundle\Entity\Reward $reward
+     * @return ProjectReward
+     */
+    public function setReward(\AppBundle\Entity\Reward $reward = null)
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    /**
+     * Get reward
+     *
+     * @return \AppBundle\Entity\Reward 
+     */
+    public function getReward()
+    {
+        return $this->reward;
+    }
 }

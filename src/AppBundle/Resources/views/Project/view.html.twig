@@ -29,6 +29,15 @@
         Имеется {{ likes | length }} лайков
     </p>
 
+    <ul>
+        {% for pr in project.projectRewards %}
+        <li>
+            <b>{{ pr.reward.name }}</b><br/>
+            {{ pr.addAt.format("Y-m-d") }}
+        </li>
+        {% endfor %}
+    </ul>
+
     {% if project.likesCount %}
         <table class="table table-bordered table-hover table-condensed">
             <thead>
