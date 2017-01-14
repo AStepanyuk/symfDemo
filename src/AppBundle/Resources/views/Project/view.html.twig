@@ -20,9 +20,9 @@
     </p>
     <p>
         {% if project.likesCount == null %}
-            <a href="{{ path('project-add-like', {'project': project.id }) }}">Like?</a>
+            <a href="{{ path('project-add-like' , {'project': project.id }) }}" class="btn-add-like">Like?</a>
         {% else %}
-            <a href="{{ path('project-add-like', {'project': project.id }) }}">Like {{ project.likesCount }}</a>
+            <a href="{{ path('project-add-like', {'project': project.id }) }}" class="btn-add-like">Like {{ project.likesCount }}</a>
         {% endif %}
     </p>
     <p>
@@ -31,10 +31,10 @@
 
     <ul>
         <h3>Награды</h3>
-        {% for pr in project.projectRewards %}
+        {% for award in project.projectRewards %}
         <li>
-            <b>{{ pr.reward.name }}</b><br/>
-            {{ pr.addAt.format("Y-m-d") }}
+            <a href="{{ path('reward_show', { 'id': award.reward.id }) }}"><b>{{ award.reward.name }}</b></a><br/>
+            {{ award.addAt.format("Y-m-d") }}
         </li>
         {% endfor %}
         <a class="btn btn-xs btn-info" href="{{ path('award_project', {project:project.id}) }}">Наградить</a>
