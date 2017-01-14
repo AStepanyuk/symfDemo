@@ -42,6 +42,10 @@ class Reward
      */
     private $icon;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProjectReward", mappedBy="reward", orphanRemoval=true)
+     */
+    private $projectRewards;
 
     /**
      * Get id

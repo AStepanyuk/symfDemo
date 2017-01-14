@@ -85,6 +85,11 @@ class Project
     private $likesCount;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProjectReward", mappedBy="project", orphanRemoval=true)
+     */
+    private $projectRewards;
+
+    /**
      * @return mixed
      */
     public function getPicture()
