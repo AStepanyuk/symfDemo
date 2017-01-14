@@ -3,11 +3,12 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UserRegistrationType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -18,11 +19,14 @@ class UserType extends AbstractType
             ->add('newPassword', PasswordType::class, [
                 'label' => 'Password',
                 'mapped' => false,
-                'required' => false
+                'required' => true
             ])
-            ;
+            ->add("agree", CheckboxType::class, [
+                'label' => 'Принимаю условия',
+                'mapped' => false
+            ]);
     }
-    
+
     /**
      * {@inheritdoc}
      */

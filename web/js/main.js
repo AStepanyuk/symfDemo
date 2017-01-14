@@ -9,7 +9,7 @@ function initAjaxLikes() {
             btn.innerText = response;
         });
     }
-  
+
 
     likeBtns.click(function (event) {
         event.preventDefault();

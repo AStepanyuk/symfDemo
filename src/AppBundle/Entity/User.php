@@ -35,6 +35,7 @@ class User
      */
     private $password;
 
+
     /**
      * @ORM\OneToMany(targetEntity="LikeItem", mappedBy="user", orphanRemoval=true)
      */
@@ -136,4 +137,5 @@ class User
     {
         return $this->likes;
     }
+
 }
