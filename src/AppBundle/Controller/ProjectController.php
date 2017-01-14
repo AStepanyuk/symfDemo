@@ -35,7 +35,6 @@ class ProjectController extends Controller
         $user = $auth->getUser();
 
 
-        dump($user);
 
 
         return $this->render('AppBundle:Project:list.html.twig', [
@@ -78,7 +77,6 @@ class ProjectController extends Controller
         $project = new Project();
         $project->setStartAt(new \DateTime());
 
-        dump($project);
 
         $form = $this->createForm(ProjectType::class, $project);
 //        $form->add('cancel', 'submit');
@@ -209,7 +207,7 @@ class ProjectController extends Controller
         $em->flush();
         }
 
-        if ($request->isXmlHttpRequest()){
+        if ($request->isMethod("POST")){
             return new Response("Likes " . $project->getLikesCount());
         }
 

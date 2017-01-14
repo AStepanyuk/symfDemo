@@ -18,7 +18,7 @@ function ajaxLike(url, btn) {
             console.log("status" + this.status);
         }
     };
-    xhttp.open("GET", url, true);
+    xhttp.open("POST", url, true);
     xhttp.send();
 }
 for (var i = 0; i < likeBtns.length; i++) {

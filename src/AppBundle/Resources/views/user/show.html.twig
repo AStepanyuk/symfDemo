@@ -5,22 +5,27 @@
 
     <table class="table table-bordered table-hover table-condensed">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ user.name }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ user.id }}</td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td>{{ user.name }}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>{{ user.password }}</td>
+        </tr>
         </tbody>
     </table>
 
-    dump
+    <ul>
+        {% for like in user.likes %}
+            <li>{{ like.objectType }} # {{ like.objectID }} # {{ like.addAt.format("Y-m-d H-i-s") }}</li>
+        {% endfor %}
+        {%  dump user.likes %}
+    </ul>
 
     <ul>
         <li>
@@ -31,7 +36,7 @@
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+            <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
         </li>
     </ul>

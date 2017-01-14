@@ -36,7 +36,7 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="LikeItem", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="LikeItem", mappedBy="user", orphanRemoval=true)
      */
     private $likes;
 
@@ -95,5 +95,45 @@ class User
     public function getPassword()
     {
         return $this->password;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add likes
+     *
+     * @param \AppBundle\Entity\LikeItem $likes
+     * @return User
+     */
+    public function addLike(\AppBundle\Entity\LikeItem $likes)
+    {
+        $this->likes[] = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Remove likes
+     *
+     * @param \AppBundle\Entity\LikeItem $likes
+     */
+    public function removeLike(\AppBundle\Entity\LikeItem $likes)
+    {
+        $this->likes->removeElement($likes);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }
